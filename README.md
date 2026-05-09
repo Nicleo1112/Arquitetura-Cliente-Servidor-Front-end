@@ -1,11 +1,10 @@
-# API Livraria - Back-end (Exercício 8.4)
+# Livraria - Front-end (Exercício 8.4)
 
-Este repositório contém a API Back-end do sistema de livraria, desenvolvida em Python com Flask.
-O projeto implementa a Arquitetura Cliente-Servidor, separando completamente as responsabilidades
-da Interface (Front-end) das regras de negócio e persistência de dados (Back-end).
+Este repositório contém o Front-end do sistema de livraria, construído com HTML e JavaScript puro.
+O projeto implementa a Arquitetura Cliente-Servidor, consumindo a API Back-end via requisições HTTP.
 
-> **Aviso:** Este é apenas o repositório do Back-end. O Cliente (Front-end independente construído
-> com HTML/JS) está em um repositório separado e deve ser acessado pelo link abaixo.
+> **Aviso:** Este é apenas o repositório do Front-end. O Back-end (API REST construída com Flask)
+> está em um repositório separado hospedado na Azure.
 
 ---
 
@@ -20,101 +19,48 @@ da Interface (Front-end) das regras de negócio e persistência de dados (Back-e
 
 ## Tecnologias Utilizadas
 
-- **Python 3.11**
-- **Flask:** Microframework para criação da API REST.
-- **Flask-CORS:** Permite requisições Cross-Origin vindas do Front-end independente.
-- **Manipulação de TXT:** Persistência de dados utilizando arquivos de texto para simular um banco de dados.
-- A API retorna exclusivamente dados em formato **JSON**.
+- **HTML5**
+- **JavaScript (Fetch API):** Realiza as requisições HTTP para a API Back-end.
+- **Bootstrap 5:** Estilização da interface via CDN.
+- Não possui dependências instaláveis — nenhum `npm install` necessário.
 
 ---
 
-## Rotas da API
+## Funcionalidades
 
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/` | Verifica se a API está online |
-| GET | `/api/livros` | Retorna a lista de livros (suporta filtros por query params) |
-| POST | `/api/livros` | Adiciona um novo livro ao catálogo |
-| DELETE | `/api/livros/<titulo>` | Remove um livro pelo título |
-
-### Filtros disponíveis em `GET /api/livros`
-
-| Parâmetro | Tipo | Descrição |
-|---|---|---|
-| `titulo` | string | Filtra livros que contenham o valor no título |
-| `autor` | string | Filtra livros que contenham o valor no autor |
-| `ano_min` | int | Ano mínimo de publicação |
-| `ano_max` | int | Ano máximo de publicação |
-
-Exemplo: `GET /api/livros?titulo=Harry&ano_min=1990&ano_max=2000`
-
-### Body esperado em `POST /api/livros`
-
-```json
-{
-  "titulo": "Nome do Livro",
-  "autor": "Nome do Autor",
-  "ano": 2024
-}
-```
+- 🔍 **Filtrar livros** por título, autor e intervalo de ano
+- ➕ **Adicionar novos livros** ao catálogo
+- 🗑️ **Remover livros** do catálogo
 
 ---
 
-## Função de Teste
+## Como executar localmente
 
-O arquivo `test_api.py` testa todas as rotas da API em produção. Para executar:
-
+1. Clone o repositório:
 ```bash
-python test_api.py
+git clone https://github.com/nicleo1112/Arquitetura-Cliente-Servidor-Front-end.git
 ```
 
-Resultado esperado:
+2. Abra o arquivo `index.html` direto no navegador — não precisa de servidor.
 
-```
-🔍 Testando API...
-
-✅ Status: API Livraria online ✅
-✅ Listar: 30 livros retornados
-✅ Filtro por título: 2 livros encontrados
-✅ Adicionar: Livro adicionado com sucesso.
-✅ Remover: Livro removido com sucesso.
-
-✅ Todos os testes passaram!
-```
+> Para rodar localmente apontando para o back local, troque no `index.html`:
+> ```javascript
+> const API = 'http://127.0.0.1:5000/api/livros';
+> ```
 
 ---
 
 ## Estrutura do Projeto
 
 ```
-deploy_Arquitetura-Cliente-Servidor-Back/
-├── .github/
-│   └── workflows/
-│       └── main_livraria-api.yml   # CI/CD para Azure App Service
-├── entities/
-│   ├── livro.py                    # Entidade pura
-│   └── livro_repository_interface.py  # Interface abstrata (DIP)
-├── infra/
-│   └── txt_livro_repository.py     # Persistência em TXT
-├── interface/
-│   └── livro_controller.py         # Rotas da API
-├── use_cases/
-│   └── livro_use_cases.py          # Regras de negócio
+Arquitetura-Cliente-Servidor-Front-end/
+├── index.html    # Aplicação completa — HTML, CSS e JS
 ├── .gitignore
-├── README.md
-├── app.py                          # Inicialização do Flask
-├── livros.txt                      # Arquivo de dados
-├── requirements.txt                # Dependências
-└── test_api.py                     # Testes da API em produção
+└── README.md
 ```
 
 ---
 
-## Deploy (Azure App Service)
+## Deploy (GitHub Pages)
 
-O deploy é feito automaticamente via GitHub Actions a cada push na branch `main`.
-
-Startup command configurado:
-```
-gunicorn --bind=0.0.0.0:8000 app:app
-```
+O front-end é hospedado via **GitHub Pages** e atualizado automaticamente a cada push na branch `main`.
